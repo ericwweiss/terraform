@@ -62,7 +62,7 @@ resource "aws_subnet" "application_public_subnet2" {
 }
 
 resource "aws_eip" "for_NAT" {
-    subnet_id = "${aws_subnet.application_private_subnet1.id}"  
+    subnet_id = aws_subnet.application_private_subnet1.id  
 }
 
 resource "aws_internet_gateway" "application_internet_gateway" {
@@ -171,18 +171,3 @@ resource "aws_instance" "apache" {
                 sudo systemctl start httpd
                 EOF
 }
-
-#resource "aws_instance" "plain" {
-#        ami = "ami-096fda3c22c1c990a"
-#        instance_type = "t2.micro"
-#        subnet_id = aws_subnet.application_public_subnet1.id
-#        security_groups = ["${aws_security_group.allow_traffic.id}"]
-#        key_name = "Eric"
-#        user_data = <<-EOF
-#                #!/bin/bash
-#                sudo yum -y install httpd
-#                echo "<p>Public Apache WebServer on Sub1</p>" >> /var/www/html/index.html
-#                sudo systemctl enable httpd
-#                sudo systemctl start httpd
-#                EOF
-#}
